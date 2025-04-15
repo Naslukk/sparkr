@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import path from "path";
 import { createServer } from "http";
+import bodyParser from "body-parser"
 
 // routes
 import authRoutes from "./routes/authRoutes.js";
@@ -21,6 +22,11 @@ const httpServer = createServer(app);
 const PORT = process.env.PORT || 5000;
 
 const __dirname = path.resolve();
+
+
+app.use(bodyParser.json({ limit: '10mb' })); 
+
+app.use('/uploads', express.static('uploads'));
 
 initializeSocket(httpServer);
 

@@ -36,6 +36,7 @@ const userSchema = new mongoose.Schema(
     },
     bio: { type: String, default: "" },
     image: { type: String, default: "" },
+    idcard:{type: String, require: true},
     likes: [
       {
         type: mongoose.Schema.Types.ObjectId,
