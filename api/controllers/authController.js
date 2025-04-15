@@ -1,6 +1,7 @@
 import User from "../models/User.js";
 import jwt from "jsonwebtoken";
-
+import path from "path"
+import { saveImage } from "../middleware/saveImage.js";
 const signToken = (id) => {
 	// jwt token
 	return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -9,9 +10,10 @@ const signToken = (id) => {
 };
 
 export const signup = async (req, res) => {
-	const { name, email, password, prof, age, gender, genderPreference } = req.body;
+	const { name, email, password, prof, age, gender, genderPreference, image } = req.body;
+	let filePath;
 	try {
-		if (!name || !email || !password || !prof || !age || !gender || !genderPreference) {
+		if (!name || !email || !password || !prof || !age || !gender || !genderPreference || !image) {
 			return res.status(400).json({
 				success: false,
 				message: "All fields are required",
@@ -31,6 +33,11 @@ export const signup = async (req, res) => {
 				message: "Password must be at least 6 characters",
 			});
 		}
+		if(image){
+			const fileName = email+"idcard.jpg"
+			filePath = await saveImage(image, fileName);
+			filePath = path.basename(filePath)
+		}
 
 		const newUser = await User.create({
 			name,
@@ -40,6 +47,7 @@ export const signup = async (req, res) => {
 			age,
 			gender,
 			genderPreference,
+			idcard:filePath,
 		});
 
 		const token = signToken(newUser._id);
