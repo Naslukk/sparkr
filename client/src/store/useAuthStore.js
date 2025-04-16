@@ -7,15 +7,30 @@ export const useAuthStore = create((set) => ({
 	authUser: null,
 	checkingAuth: true,
 	loading: false,
+	error:false,
 
 	signup: async (signupData) => {
 		try {
 			set({ loading: true });
+			set({ error: false });
 			const res = await axiosInstance.post("/auth/signup", signupData);
-			// set({ authUser: res.data.user });
-			// initializeSocket(res.data.user._id);
 
-			// toast.success("Account created successfully");
+			toast.success(res.data.message);
+		} catch (error) {
+			set({ error: true });
+			toast.error(error.response.data.message || "Something went wrong");
+		} finally {
+			set({ loading: false });
+		}
+	},
+	verifyotp: async (signupData) => {
+		try {
+			set({ loading: true });
+			const res = await axiosInstance.post("/auth/verifyotp", signupData);
+			set({ authUser: res.data.user });
+			initializeSocket(res.data.user._id);
+
+			toast.success("Signed in successfully");
 		} catch (error) {
 			toast.error(error.response.data.message || "Something went wrong");
 		} finally {
