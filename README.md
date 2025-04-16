@@ -32,6 +32,9 @@ CLOUDINARY_API_KEY=<your_cloudinary_api_key>
 CLOUDINARY_API_SECRET=<your_cloudinary_api_secret>
 CLOUDINARY_CLOUD_NAME=<your_cloudinary_cloud_name>
 
+MAIL_PASS=<app_password_of_the_email >
+EMAIL_USER=<youremail@gmail.com>
+
 ```
 [Visit Cloudinary website](https://cloudinary.com/)
 

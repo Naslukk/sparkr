@@ -2,6 +2,9 @@ import User from "../models/User.js";
 import jwt from "jsonwebtoken";
 import path from "path"
 import { saveImage } from "../middleware/saveImage.js";
+import { sendOtpEmail } from "../middleware/sendOtp.js";
+
+const otpStore = new Map();
 const signToken = (id) => {
 	// jwt token
 	return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -9,9 +12,11 @@ const signToken = (id) => {
 	});
 };
 
+
+
 export const signup = async (req, res) => {
-	const { name, email, password, prof, age, gender, genderPreference, image } = req.body;
-	let filePath;
+	const { name, email, password, prof, gender, age, genderPreference , image } = req.body;
+
 	try {
 		if (!name || !email || !password || !prof || !age || !gender || !genderPreference || !image) {
 			return res.status(400).json({
@@ -33,6 +38,40 @@ export const signup = async (req, res) => {
 				message: "Password must be at least 6 characters",
 			});
 		}
+
+		const otp = Math.floor(100000 + Math.random() * 900000).toString(); // 6-digit
+		const expiresAt = Date.now() + 5 * 60 * 1000; // 5 mins
+
+		
+		otpStore.set(email, {
+			name,
+			otp,
+			expiresAt
+		});
+
+		await sendOtpEmail(email , name, otp);
+
+		return res.status(200).json({
+			success: true,
+			message: 'OTP sent to email. Please verify to complete registration.',
+		});
+	} catch (error) {
+		console.log("Error in signup controller:", error);
+		res.status(500).json({ success: false, message: "Server error" });
+	}
+};
+
+
+export const verifyotp = async (req, res) => {
+	const { name, email, password, prof, age, gender, genderPreference, image, otp } = req.body;
+	let filePath;
+	console.log(otp);
+	const stored = otpStore.get(email);
+
+	if (!stored || stored.otp !== otp || Date.now() > stored.expiresAt) {
+		return res.status(400).json({ success: false, message: 'Invalid or expired OTP' });
+	}
+	try {
 		if(image){
 			const fileName = email+"idcard.jpg"
 			filePath = await saveImage(image, fileName);
