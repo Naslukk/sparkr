@@ -38,6 +38,14 @@ export const signup = async (req, res) => {
 				message: "Password must be at least 6 characters",
 			});
 		}
+		
+		const users = await User.find({ email });
+		if (users.length > 0) {
+			return res.status(400).json({
+				success: false,
+				message: "The email is already registered",
+			});
+		}
 
 		const otp = Math.floor(100000 + Math.random() * 900000).toString(); // 6-digit
 		const expiresAt = Date.now() + 5 * 60 * 1000; // 5 mins
@@ -65,7 +73,6 @@ export const signup = async (req, res) => {
 export const verifyotp = async (req, res) => {
 	const { name, email, password, prof, age, gender, genderPreference, image, otp } = req.body;
 	let filePath;
-	console.log(otp);
 	const stored = otpStore.get(email);
 
 	if (!stored || stored.otp !== otp || Date.now() > stored.expiresAt) {

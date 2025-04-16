@@ -7,9 +7,30 @@ import ChatPage from "./pages/ChatPage";
 import { useAuthStore } from "./store/useAuthStore";
 import { useEffect } from "react";
 import { Toaster } from "react-hot-toast";
+import AdminDashboard from "./pages/AdminDashboard";
+
 
 function App() {
 	const { checkAuth, authUser, checkingAuth } = useAuthStore();
+
+const sampleData = {
+  success: true,
+  count: 1,
+  users: [
+    {
+      _id: "67ffd35cfc78334630902d63",
+      name: "Naslu kk",
+      email: "naslukk@gmail.com",
+      prof: "Engineer",
+      age: 22,
+      gender: "male",
+      image: "https://res.cloudinary.com/dl0hbs1kc/image/upload/v1744823194/xqcea27rkcx99jjgloso.avif",
+      idcard: "naslukk@gmail.comidcard.jpg",
+      accountStatus: "active",
+    },
+  ],
+};
+
 
 	useEffect(() => {
 		checkAuth();
@@ -24,6 +45,7 @@ function App() {
 				<Route path='/auth' element={!authUser ? <AuthPage /> : <Navigate to={"/"} />} />
 				<Route path='/profile' element={authUser ? <ProfilePage /> : <Navigate to={"/auth"} />} />
 				<Route path='/chat/:id' element={authUser ? <ChatPage /> : <Navigate to={"/auth"} />} />
+				<Route path='/admin/dashboard' element={<AdminDashboard />} />
 			</Routes>
 
 			<Toaster />

@@ -330,9 +330,16 @@ const SignUpForm = () => {
               size="large"
               rootClassName="custom-otp"
             />
+            <button className="flex px-4 py-2 mt-3 text-sm font-medium border border-pink-500 rounded-md shadow-sm justify-self-end"
+            onClick={() => {
+              setStep(1);
+            }}
+            >
+              Go back
+            </button>
             <button
               type="submit"
-              className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white mt-10 ${
+              className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white mt-8 ${
                 loading
                   ? "bg-pink-400 cursor-not-allowed"
                   : "bg-pink-600 hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500"
