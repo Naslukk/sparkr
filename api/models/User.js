@@ -60,6 +60,10 @@ const userSchema = new mongoose.Schema(
       enum: ["pending", "active", "suspended"],
       default: "pending",
     },
+    blockedUsers: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+    }]
   },
   { timestamps: true }
 );
