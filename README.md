@@ -6,16 +6,19 @@
 
 About This App:
 
-- 🔐 Authentication System with JWT
-- 🛡️ Route Protection
-- 👤 User Profile Creation and Updates
-- 🖼️ Image Upload for Profiles
-- 🔄 Swipe Right/Left Feature
-- 💬 Real-time Chat Messaging
-- 🔔 Real-time Notifications
-- 🤝 Matching Algorithm
-- 📱 Responsive Mobile Design
-- ⌛ And a lot more...
+- 🔐 **Authentication System** with JWT  
+- 🛡️ **Route Protection** for private pages  
+- 👤 **User Profile** Creation and Updates  
+- 🧑‍💼 **Admin Dashboard** for managing users  
+- ✅ **Profile Verification** system  
+- 🖼️ **Image Upload** for profile pictures & ID cards  
+- 🔄 **Swipe Left/Right** Feature like Tinder  
+- 💬 **Real-time Chat Messaging**  
+- 🚫 **Chat Blocking** functionality  
+- 🔔 **Real-time Notifications**  
+- 🤝 **Smart Matching Algorithm**  
+- 📱 **Responsive Mobile Design**  
+- ⌛ **And a lot more... coming soon!**
 
 ### Setup .env file
 
