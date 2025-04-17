@@ -40,3 +40,40 @@ export const updateProfile = async (req, res) => {
 		});
 	}
 };
+
+export const blockUser = async (req, res) => {
+	const { id } = req.params;
+	const userId = req.user._id
+
+	try {
+		const user = await User.findById(userId);
+
+		if (!user) {
+			return res.status(404).json({ success: false, message: 'User not found' });
+		}
+
+		if (!user.blockedUsers.includes(id)) {
+			user.blockedUsers.push(id);
+			await user.save();
+		}
+
+		res.status(200).json({ success: true, message: 'User blocked.' });
+	} catch (err) {
+		console.log(err);
+		res.status(500).json({ success: false, error: err.message });
+	}
+};
+
+export const unblockUser = async (req, res) => {
+	const { id } = req.params;
+	const userId = req.user._id;
+	try {
+		await User.findByIdAndUpdate(userId, {
+			$pull: { blockedUsers: id }
+		});
+
+		res.status(200).json({ success: true, message: 'User unblocked.' });
+	} catch (err) {
+		res.status(500).json({ success: false, error: err.message });
+	}
+};

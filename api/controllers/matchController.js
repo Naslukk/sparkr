@@ -90,7 +90,7 @@ export const swipeLeft = async (req, res) => {
 
 export const getMatches = async (req, res) => {
 	try {
-		const user = await User.findById(req.user.id).populate("matches", "name image");
+		const user = await User.findById(req.user.id).populate("matches", "name image blockedUsers");
 
 		res.status(200).json({
 			success: true,

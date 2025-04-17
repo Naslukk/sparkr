@@ -18,7 +18,6 @@ export const useMessageStore = create((set) => ({
 				],
 			}));
 			const res = await axiosInstance.post("/messages/send", { receiverId, content });
-			console.log("message sent", res.data);
 		} catch (error) {
 			toast.error(error.response.data.message || "Something went wrong");
 		}
